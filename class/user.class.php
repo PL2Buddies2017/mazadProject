@@ -28,11 +28,11 @@ class user{
         echo $this->firstName. $this->lastName;
     }
     public function logIn(){
-        $test = new dataBase('localhost', 'mazad', 'root','1234A');
-        $test->setTable('user');
+        $connect = new dataBase(HOST, DB_NAME, DB_USER, DB_PASS);
+        $connect->setTable('user');
         $this->email = $_POST['email'];
         $this->password = sha1($_POST['password']);
-        $allData = $test->select("*", array('email', 'userPassword'),array($this->email, $this->password));
+        $allData = $connect->select("*", array('email', 'userPassword'),array($this->email, $this->password));
         if(sizeof($allData) > 0){
             $_SESSION['firstName']      = $allData[0]['firstName'];
             $_SESSION['lastName']       = $allData[0]['lastName'];
@@ -51,7 +51,9 @@ class user{
             header("location:index.php");
             } 
             else{
-                echo "pad";
+                //echo HOST . " " . DB_NAME . " " . DB_USER . " " . DB_PASS;
+                
+                print_r($connect->select());
             }//end of else
         }//end of if
 

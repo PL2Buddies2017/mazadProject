@@ -6,11 +6,13 @@
                 <div class="con">
                     <p>users</p>
                     <div class="cir">
-                        <span class="number"><?php 
-                        $test = new dataBase("localhost","mazad","root","1234A");
+                        <span class="number">
+                        <?php 
+                        $test = new dataBase("localhost","mazad","root", DB_PASS);
                         $test->setTable("user");
                         echo $test->getCount();
-                        ?></span>
+                        ?>
+                        </span>
                     </div>
                 </div>
 

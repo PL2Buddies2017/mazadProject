@@ -112,6 +112,11 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                            
+                                    </div>
+
                                 </div>
 
                             </div>
@@ -167,7 +172,7 @@
                             <label for="increament">Categories</label>
                             <select name="categories" id="">
                                 <?php
-                                    $test = new dataBase("localhost", "mazad", "root", "1234A");
+                                    $test = new dataBase("localhost", "mazad", "root", DB_PASS);
                                     $test->setTable('categorie');
                                     $allData = $test->select();
                                     for($i=0;$i<sizeof($allData);$i++){

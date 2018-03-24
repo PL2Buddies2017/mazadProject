@@ -172,54 +172,102 @@
 
         public function mk(){
                 $Make = array();
+                $Make[] = 'DROP DATABASE mazad';
                 $Make[] = 'CREATE DATABASE mazad';
                 $Make[] = 'USE mazad';
-                $Make[] = 'CREATE TABLE user
-                                (id int(11) AUTO_INCREMENT  PRIMARY KEY, 
+                $Make[] = 'CREATE TABLE user (
+                                id int(11) AUTO_INCREMENT  PRIMARY KEY, 
                                 firstName varchar(255) NOT NULL, 
                                 lastName varchar(255) NOT NULL,
                                 gender TINYINT(2) NOT NULL,
                                 userName varchar(255) NOT NULL, 
                                 email varchar(255) NOT NULL,
-                                followers varchar(255),
-                                followings varchar(255),
                                 birthDate date,
                                 userPassword varchar(255) NOT NULL,
-                                imagePath varchar(255) NOT NULL,
-                                userRole TINYINT(2) NOT NULL,
-                                biddings varchar(255),
-                                createdSessions varchar(255),
+                                imagePath varchar(255) DEFAULT "imgs/original.jpg",
+                                userRole TINYINT(2) DEFAULT 2,
+                                balance int(11) DEFAULT 5,
+                                active TINYINT(2) DEFAULT 1,
+                                blocked TINYINT(2) DEFAULT 0,
+                                rate int(11) DEFAULT 0,
                                 UNIQUE(email),
                                 UNIQUE(userName))';
-
+                                
                 $Make[] = 'CREATE TABLE notification (
                                 id int(11) AUTO_INCREMENT  PRIMARY KEY,
                                 fromId int(11) NOT NULL,
-                                toId int(11) NOT NULL, 
-                                details varchar(255) NOT NULL,
-                                FOREIGN KEY (fromId) REFERENCES user(id), 
+                                toId int(11) NOT NULL,
+                                kind int(11) NOT NULL,
+                                targetLink varchar(255),
+                                seen TINYINT(2) DEFAULT 0,
+                                notificationTime DATETIME,
+                                FOREIGN KEY (fromId) REFERENCES user(id),
                                 FOREIGN KEY (toId) REFERENCES user(id))';
 
-                $Make[] = 'CREATE TABLE item(
-                                id int(11) AUTO_INCREMENT  PRIMARY KEY,
-                                picture varchar(255) NOT NULL,
-                                tags varchar(255),
-                                sessionId int(11) NOT NULL)';
-
-                $Make[] = 'CREATE TABLE session(
-                                id int(11) AUTO_INCREMENT  PRIMARY KEY,
-                                autoSell int(11),
-                                isBlind TINYINT(2),
-                                startTime DATETIME,
-                                endTime DATETIME,
-                                itemId int(11),
-                                FOREIGN KEY (itemId) REFERENCES item(id))';
                 $Make[] = 'CREATE TABLE categorie(
                             id int(11) AUTO_INCREMENT  PRIMARY KEY,
                             icon varchar(255),
-                            sessionName varchar(255) NOT NULL,
-                            numOfSession int(11),
+                            catiegorieName varchar(255) NOT NULL,
                             details varchar(255) NOT NULL)';
+
+                $Make[] = 'CREATE TABLE session(
+                                id int(11) AUTO_INCREMENT  PRIMARY KEY,
+                                autoSell int(11) DEFAULT 0,
+                                Blind int(11),
+                                startTime DATETIME NOT NULL,
+                                endTime DATETIME NOT NULL,
+                                sessionPassword varchar(255),
+                                itemId int(11),
+                                sessionOwnerId int(11) NOT NULL,
+                                currentOffer int(11) NOT NULL,
+                                currentUser int(11),
+                                finished TINYINT(2) DEFAULT 0,
+                                FOREIGN KEY (sessionOwnerId) REFERENCES user(id),
+                                FOREIGN KEY (currentUser) REFERENCES user(id))';
+
+                $Make[] = 'CREATE TABLE product(
+                                id int(11) AUTO_INCREMENT  PRIMARY KEY,
+                                imagePath varchar(255) NOT NULL,
+                                tags varchar(255),
+                                sessionId int(11) NOT NULL,
+                                productName varchar(255) NOT NULL,
+                                catId int(11) NOT NULL,
+                                stars int(11) DEFAULT 0,
+                                bidderId int(11),
+                                FOREIGN KEY (sessionId) REFERENCES session(id),
+                                FOREIGN KEY (catId) REFERENCES categorie(id),
+                                FOREIGN KEY (bidderId) REFERENCES user(id)
+                            )';
+                
+                $Make[] = 'CREATE TABLE feedback(
+                            id int(11) AUTO_INCREMENT  PRIMARY KEY,
+                            feedback varchar(255) NOT NULL,
+                            fromId int(11) NOT Null,
+                            aboutId int(11) NOT NULL,
+                            stars int(11) DEFAULT 0,
+                            FOREIGN KEY (fromId) REFERENCES user(id),
+                            FOREIGN KEY (aboutId) REFERENCES user(id)
+                        )';
+
+                $Make[] = 'CREATE TABLE follow(
+                    id int(11) AUTO_INCREMENT  PRIMARY KEY,
+                    fromId int(11) NOT NULL,
+                    toId int(11) NOT NULL,
+                    FOREIGN KEY (fromId) REFERENCES user(id),
+                    FOREIGN KEY (toId) REFERENCES user(id)
+                    )';
+                $Make[] = 'ALTER TABLE session ADD FOREIGN KEY (itemId) REFERENCES product(id)';// set here alter table constr. between session and product
+                $Make[] = 'CREATE TABLE report(
+                            id int(11) AUTO_INCREMENT  PRIMARY KEY,
+                            report varchar(255) NOT NULL,
+                            fromId int(11) NOT Null,
+                            aboutId int(11) NOT NULL,
+                            respond TINYINT(2) DEFAULT 0,
+                            sessionId int(11) NOT NULL,
+                            FOREIGN KEY (fromId) REFERENCES user(id),
+                            FOREIGN KEY (aboutId) REFERENCES user(id),
+                            FOREIGN KEY (sessionId) REFERENCES session(id)
+                        )';
                 for($i = 0 ; $i< sizeof($Make); $i++){
                     $this->setSqlQur($Make[$i]);
                 }//end of loop function
@@ -235,9 +283,8 @@
                 for($i = 0 ; $i< sizeof($Make); $i++){
                     $this->setSqlQur($Make[$i]);
                 }//end of loop function
-            }
+            }//end of edit function
     }//end of class data base
-    
 
 //$test->insert(array("icon","sessionName", "numOfSession", "details"),array("fa-car", "cars", 5, "testtest"));
     
@@ -287,3 +334,8 @@
     echo $stmt->rowCount();
     print_r($all);
     */
+/*
+    $testDataBase = new dataBase("localhost", "mazad", "root","");
+    $testDataBase->setTable('user');
+    $testDataBase->insert(array('firstName','lastName','gender', 'userName', 'email','userPassword', 'imagePath','userRole'),
+     array('shrouk', 'ragab', 1, 'shroukRagab', 'shrouk@gmail.com',sha1('1234A'),'imgs/or2.jpeg',1));*/

@@ -5,6 +5,8 @@
  *          this file contains global config file                *
  *****************************************************************
 */
+ini_set('display_errors', 1);//this for show errs
+error_reporting(~0);// the same target
 /* START OF DEFINES */
 define("ROOT_DIR", __DIR__); // to get root file of project
 define("SEP", "/"); // to set our separator
