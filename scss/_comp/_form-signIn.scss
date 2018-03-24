@@ -1,0 +1,20 @@
+/*start of sign up style*/
+div.login{
+    margin: auto;
+    input[type = 'submit']{
+        margin: 30px auto !important;
+    }
+    form{
+        padding-bottom: 10px;
+    }
+    span.dir-signUp{
+        display: block;
+        text-align: center;
+        color: $font-color-w;
+        >a{
+            color: $font-color-w;
+            font-weight: bold;
+            font-size: $font-md + 2px;
+        }
+    }
+}
