@@ -35,8 +35,8 @@
                     $this->dsn .= ';charset= utf8' /*. DB_ENCODING */;    
             $this->connect();//try to connect to database
             $this->refreashTables();// load tables from databases
-            if((int)sizeof($this->option) != 0 )//this for check if array not empty
-                $this->curTable = $this->tables[0][0];// set first table as default "if you forget"
+            /*if((int)sizeof($this->option) != 0 )//this for check if array not empty
+                $this->curTable = $this->tables[0][0];// set first table as default "if you forget"*/
         }//end of construct
 
         public function connect(){
@@ -170,9 +170,23 @@
                 $this->con->exec($myQur);
         }//end of setSqlQur function
 
+        public function isDatabase($databaseName){
+            $stmt = $this->con->prepare('SHOW DATABASES');
+            $stmt->execute();
+            $allDatabases = $stmt->fetchAll();
+            //echo "<pre>";
+            //print_r($allDatabases);
+            //echo "</pre>";
+            for($i = 0; $i<sizeof($allDatabases);$i++){
+                if($allDatabases[$i][0] == $databaseName)
+                    return true;
+            }
+            return false;
+        }//end of function isDatabase
+
         public function mk(){
                 $Make = array();
-                $Make[] = 'DROP DATABASE mazad';
+                if($this->isDatabase('mazad'))$Make[] = 'DROP DATABASE mazad';
                 $Make[] = 'CREATE DATABASE mazad';
                 $Make[] = 'USE mazad';
                 $Make[] = 'CREATE TABLE user (
@@ -285,6 +299,8 @@
                 }//end of loop function
             }//end of edit function
     }//end of class data base
+
+$test = new dataBase('localhost', 'mazad', 'root', '1234A');
 
 //$test->insert(array("icon","sessionName", "numOfSession", "details"),array("fa-car", "cars", 5, "testtest"));
     
