@@ -183,7 +183,10 @@
             }
             return false;
         }//end of function isDatabase
-
+        public function getLastId(){
+            $this->curQuery = "SELECT  MAX(id) AS max FROM $this->curTable";
+            return $this->executeQuery(false, true);
+        }
         public function mk(){
                 $Make = array();
                 if($this->isDatabase('mazad'))$Make[] = 'DROP DATABASE mazad';
@@ -226,14 +229,16 @@
 
                 $Make[] = 'CREATE TABLE session(
                                 id int(11) AUTO_INCREMENT  PRIMARY KEY,
+                                sessionName varchar(255),
+                                startPrice varchar(255),
                                 autoSell int(11) DEFAULT 0,
                                 Blind int(11),
                                 startTime DATETIME NOT NULL,
                                 endTime DATETIME NOT NULL,
                                 sessionPassword varchar(255),
-                                itemId int(11),
+                                productId int(11),
                                 sessionOwnerId int(11) NOT NULL,
-                                currentOffer int(11) NOT NULL,
+                                currentOffer int(11) DEFAULT 0,
                                 currentUser int(11),
                                 finished TINYINT(2) DEFAULT 0,
                                 FOREIGN KEY (sessionOwnerId) REFERENCES user(id),
@@ -243,12 +248,10 @@
                                 id int(11) AUTO_INCREMENT  PRIMARY KEY,
                                 imagePath varchar(255) NOT NULL,
                                 tags varchar(255),
-                                sessionId int(11) NOT NULL,
                                 productName varchar(255) NOT NULL,
                                 catId int(11) NOT NULL,
                                 stars int(11) DEFAULT 0,
                                 bidderId int(11),
-                                FOREIGN KEY (sessionId) REFERENCES session(id),
                                 FOREIGN KEY (catId) REFERENCES categorie(id),
                                 FOREIGN KEY (bidderId) REFERENCES user(id)
                             )';
@@ -270,7 +273,7 @@
                     FOREIGN KEY (fromId) REFERENCES user(id),
                     FOREIGN KEY (toId) REFERENCES user(id)
                     )';
-                $Make[] = 'ALTER TABLE session ADD FOREIGN KEY (itemId) REFERENCES product(id)';// set here alter table constr. between session and product
+                $Make[] = 'ALTER TABLE session ADD FOREIGN KEY (productId) REFERENCES product(id)';// set here alter table constr. between session and product
                 $Make[] = 'CREATE TABLE report(
                             id int(11) AUTO_INCREMENT  PRIMARY KEY,
                             report varchar(255) NOT NULL,

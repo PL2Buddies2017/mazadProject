@@ -16,6 +16,7 @@ include "global.php";?>
     <link rel="stylesheet" href="css/fontawesome-all.min.css" />
     <link rel="stylesheet" href="css/animate.css"/>
     <link rel="stylesheet" href="css/selectize.default.css"/>
+    <link rel="stylesheet" href="css/styles/loader.css">
     <?php includeStyles();?>
     <link rel="stylesheet" href="css/styles/frontEnd.css" class="sepp"/> <!-- STRONG STYLE-->
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">-->

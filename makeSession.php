@@ -1,22 +1,12 @@
-        <div class="form col-lg-4 col-md-6 col-sm-8" id='test'>
+<?php
+    if($_SERVER['REQUEST_METHOD'] === "POST"){
+        $lol = new session('add');
+    }
+?>
+    <div class="form col-lg-4 col-md-6 col-sm-8" id='test'>
         <div class="myCon">
             <h2 class="title"><i class="fa fa-bullseye"></i>Add New Session</h2>
-                <form action="" class="signUp" method="post" autocomplete="off">
-<!--
-                    <div class="row">
-                        <div class="drob-down">
-                            <div class="contain">
-                                <span class="title">
-                                    SelectBox
-                                </span>
-                                <ul>
-                                    <li>Option 1</li>
-                                    <li>Option 2</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
--->
+                <form action="<?php echo $_SERVER['PHP_SELF'];?>" class="signUp" method="post" autocomplete="off" enctype="multipart/form-data">
                     <div class="row">
                         <div class="firstName col-6">
                             <label for="sessionName" class="col-12">Session Name</label>
@@ -103,7 +93,7 @@
                                     <div class="switch open-panel" data-off="-15px" data-on="-60px" data-name="private" data-tar="false"></div>
                                 </div>
 
-                                <div class="col-12 private"><!-- CUR-->
+                                <div class="col-12 private hidden"><!-- CUR-->
                                     <div class="row">
                                         <div class="password col-12">
                                             <label for="password" class="col-12">Session Password</label>
@@ -112,11 +102,6 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="row">
-                                            
-                                    </div>
-
                                 </div>
 
                             </div>
@@ -127,7 +112,7 @@
                         <div class="col-12 ">
                             <div class="row">
                                 <label for="increament" class="col-3">increament</label>
-                                <input type='range' value="0"  min="3" max="30" step = "0.1" class="col-7"/>
+                                <input type='range' value="0"  min="3" max="30" step = "0.1" class="col-7" name="sessionIncreament"/>
                                 <span id="val" class="col-1">0</span>
                                 <span class="col-1">%</span>
                             </div>
@@ -148,7 +133,7 @@
                         <div class="userName col-12">
                             <label for="userName" class="col-12">Image</label>
                             <div class="border">
-                                <input type="file" class="col-12" name="images"  placeholder='eg. mr.robot'/>
+                                <input type="file" class="col-12" name="images"  placeholder='eg. mr.robot' id="images"/>
                             </div>
                         </div>    
                     </div>
@@ -172,18 +157,35 @@
                             <label for="increament">Categories</label>
                             <select name="categories" id="">
                                 <?php
-                                    $test = new dataBase("localhost", "mazad", "root", DB_PASS);
-                                    $test->setTable('categorie');
-                                    $allData = $test->select();
-                                    for($i=0;$i<sizeof($allData);$i++){
+                                    $cats = new catiegorie();
+                                    $allData = $cats->getAllCatiegorie();
+                                    if(!sizeof($allData)){
                                         echo "<option value=";
-                                        echo $allData[$i]['sessionName'];
+                                        echo "not catiegories yet";
                                         echo ">";
-                                        echo $allData[$i]['sessionName'];
+                                        echo "not found catiegories yet";
                                         echo "</option>";
+                                    }else{
+                                        for($i=0;$i<sizeof($allData); $i++){
+                                            echo "<option value=";
+                                            echo $allData[$i]['id'];
+                                            echo ">";
+                                            echo $allData[$i]['catiegorieName'];
+                                            echo "</option>";  
+                                        }
                                     }
                                 ?>
                             </select>
+                            <?php $newDB = new dataBase(HOST, DB_NAME, DB_USER, DB_PASS);
+                            $newDB->setTable('user');
+                            echo "<pre>";
+                            if($newDB->getLastId()[0]['max'] == NULL){
+                                    
+                            }
+                            //echo"1111111111111";
+                            echo $_SESSION['id'];
+                            echo "</pre>";
+                            ?>
                         </div>
                     </div>
 

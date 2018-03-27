@@ -8,41 +8,13 @@
 <section class="content">
 <?php 
     $master = new user();    
-    if( $master->getRole() == 1)// note that we use == not === "don't work in this case"
+    if($master->getRole() == 1)// note that we use == not === "don't work in this case"
         include ROOT_DIR . "/includes/TPL/adminPanel.inc.php";
     include ROOT_DIR . "/includes/TPL/profile.inc.php";
     include ROOT_DIR . "/makeSession.php";
 ?>
 
 </section><!-- end of section conent-->
-
-<?php
-    if($_SERVER['REQUEST_METHOD'] === 'POST'){
-        $sessionName = $_POST['sessionName'];
-        $startPrice = $_POST['startPrice'];
-        $itemName = $_POST['itemName'];
-        $startTime = $_POST['startTime'];
-        $endTime = $_POST['endTime'];
-        $increament = $_POST['increament'];
-        $autoSell = $_POST['autoSell'];
-        $blind = $_POST['blind'];
-        $private = $_POST['private'];
-        $tags = $_POST['tags'];
-        $cats = $_POST['categories'];
-
-        $test->setTable('session');
-        $all = $test->select();
-        $getLast = $all[sizeof($all)-1]['id'];
-        $test->setTable('item');
-        $test->insert(array("tags","sessionId", "itemName"), array($tags, $getLast, $itemName));
-        $all = $test->select();
-        $getLast = $all[sizeof($all)-1]['id'];
-        $test->setTable('session');
-        $test->insert(array("autoSell", "isBlind", "startTime", "endTime", "itemId"),
-                     array($autoSell, $blind, $startTime, $endTime, $getLast));
-
-    }
-?>
 <!-- start of add session-->
 
 

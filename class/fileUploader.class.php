@@ -43,7 +43,7 @@ class fileUploader{
             $this->ERRORS[] = "Sorry, your file was not uploaded.";// if everything is ok, try to upload file
         } else {
             if (move_uploaded_file($_FILES[$this->nameOfPost]["tmp_name"], $this->targetFile)) {
-                //move_uploaded_file($_FILES[$this->nameOfPost]["tmp_name"], $this->targetFile);
+                move_uploaded_file($_FILES[$this->nameOfPost]["tmp_name"], $this->targetFile);
                 return array();
             } else {
                 return $this->ERRORS;
@@ -87,9 +87,4 @@ class fileUploader{
         return $this->ERRORS;
     }// end of function getErrors
 }//end of class fileUploader
-
-$test = new fileUploader(ROOT. "uploads/");
-print_r($test->getErrors());
-$test->upload();
-
 ?>

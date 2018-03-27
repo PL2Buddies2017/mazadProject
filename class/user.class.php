@@ -34,6 +34,7 @@ class user{
         $this->password = sha1($_POST['password']);
         $allData = $connect->select("*", array('email', 'userPassword'),array($this->email, $this->password));
         if(sizeof($allData) > 0){
+            $_SESSION['id']             = $allData[0]['id'];
             $_SESSION['firstName']      = $allData[0]['firstName'];
             $_SESSION['lastName']       = $allData[0]['lastName'];
             $_SESSION['userName']       = $allData[0]['userName'];

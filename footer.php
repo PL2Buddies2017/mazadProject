@@ -3,5 +3,7 @@
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/selectize.min.js"></script>
+<script src="js/loader.js"></script>
+<script src="js/ajaxRequestMainPages.js"></script>
 <script src="js/main.js"></script>
 </html>

@@ -1,4 +1,4 @@
 git remote add origin https://github.com/PL2Buddies2017/mazadProject.git
 git push -u origin master
 PL2Buddies2017
-PL2.Buddies
+pl2.buddies

@@ -41,6 +41,7 @@ $('div.menu li').on("click", function(){
     var color = $(this).data('color');
     $('div.menu-header div.ponn').css({"background-color": color});});
 $('div.controls').append("<div class='after'></div>");
+
 $('div.controls span').on("click", function(){
     "use strict";
     $(this).addClass("active").siblings().removeClass('active');
@@ -50,6 +51,7 @@ $('div.controls span').on("click", function(){
 $("div.following div.cir.f1").append("<div class='before'><span>Following</span></div><div class='after'>Following</div>");
 $("div.following div.cir.f2").append("<div class='before'><span>Followers</span></div><div class='after'>Followers</div>");
 //var_dump($("div.following div.cir").children("div.after").css("top");
+// 
 $("div.following div.cir").on("mouseenter", function(){
     "use strict";
     if($(this).data('open') === false){
@@ -66,25 +68,32 @@ $("div.following div.cir").on("mouseenter", function(){
     }
 });
 
+//start of make stars of feedback and rate
 var numOfStars = $("div.stars").data("rate")+1;
 for(var i = 0; i< numOfStars ; i++){
     $("div.stars").children("i." + i).removeClass("far").addClass("fas");
 }
+
+// make fake ajax load content
 $("aside.left-side ul li").on("click", function(){
     "use strict";
     if($(this).data("on") == true)
     {
         $("section.content").children().css(({"display":"none", "opacity":"0"}));
+        var arrayLinks = ['','',''];
+        /***************************************************************************/
         $("section."+$(this).data("dir")).css({"display":"block"}).animate({"opacity":"1"});
         $(this).addClass("active").siblings().removeClass("active");
     }
 });
 
+// start of make rotated arrow
 $(".rotate").on("click", function(){
     "use strict";
     (!$(this).hasClass("rotate-180"))?$(this).addClass("rotate-180"):$(this).removeClass("rotate-180");
 });
 
+// start of rotated arrow to show dropdown
 $("i.ll").on("click", function(){
     "use strict";
     if($("div.info div.drop-down").css("opacity") == 0){
@@ -97,6 +106,7 @@ $("i.ll").on("click", function(){
     }
 });
 
+// start of change theme of of website ----not finished---
 var style = $("link.sepp");
 $("ul li.chng").on("click", function(){
     var STYLE_ROOT = "css/styles/";
@@ -108,7 +118,7 @@ $("ul li.chng").on("click", function(){
     }
 });
 
-
+// start of append switch content to assig css
 var switchName = $('.switch');
 switchName.append('<div class="sig"><span class="off">OFF</span><span class="sp"> &nbsp;<span class="dot"> &nbsp;</span></span><span class="on">ON</span></div>');
 var child = $(".switch").children('.sig');
@@ -116,6 +126,7 @@ $(".switch").each(function( index ) {
     $(this).children('.sig').css("left", $(this).data("off"));
   });
 
+// start of switch code using input hidden 
 switchName.append('<input type = "hidden" name=' + switchName.data("name") + ' value="0" class = "switchInput">');
 $('.switch').on("click", function(){
     "use strict";
@@ -133,12 +144,14 @@ $('.switch').on("click", function(){
     //console.log($(this).children("input.switchInput").attr("value"));
 });
 
-
+// start of show value of range input
 $('input[type="range"]').on("click", function(){
     "use strict";
     var value = document.getElementById('val');
     value.innerHTML = $('input[type="range"]').val();
 });
+
+// start of make tags
 var tag = 0;
 var tagVal = "";
 $("input.tagsInput").on("keypress", function(e){
@@ -160,7 +173,7 @@ $("input.tagsInput").on("keypress", function(e){
         $(this).val("");
 });
 
-
+// start of remove tags on double click
 $("div.tags").on("dblclick", function(){
     "use strict";
     $("input.tagsInput").val("");
@@ -190,3 +203,18 @@ $('.open-panel').on("click", function(){
         $(this).parent().siblings(dataTargetClassDirection).animate({"opacity":"0"},speedOfSwitchPanel).addClass('hidden');
     }//end of else 
 });//end of toggle panel
+
+$('#get').on("click", function(){
+    "use strict";
+    console.log("good");
+    var newRequest = new XMLHttpRequest();
+    newRequest.onreadystatechange = function(){
+        //"use strict";
+        if (this.readyState == 4 && this.status == 200) {
+            document.getElementById("content2").innerHTML =
+            this.responseText;
+       }
+    };
+    newRequest.open("GET", "profile.php", true);
+    newRequest.send();
+});
